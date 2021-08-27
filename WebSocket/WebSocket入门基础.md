@@ -1,12 +1,8 @@
-[TOC]
-
-说明：本文阅读需要有一定Java基础，不再讨论基础语法，会讲解每门技术的基本原理，不做深入讨论，面向工程实践，结合过程中的踩坑，从而提升J2EE相关技术的能力。
 
 
+# WebSocket入门基础
 
-# 3 WebSocket
-
-## 3.1 为什么需要WebSocket？
+## 1 为什么需要WebSocket？
 
 参考文档：https://www.cnblogs.com/wxd0108/p/7999939.html
 
@@ -16,26 +12,29 @@
 
 此，工程师们一直在思考，有没有更好的方法。WebSocket 就是这样发明的。WebSocket 连接允许客户端和服务器之间进行全双工通信，以便任一方都可以通过建立的连接将数据推送到另一端。WebSocket 只需要建立一次连接，就可以一直保持连接状态。这相比于轮询方式的不停建立连接显然效率要大大提高。
 
-![](images/03/5.png)
+![](images/01/5.png)
 
-## 3.2 WebSocket实现原理
+## 2 WebSocket实现原理
 
 Spring 内置简单消息代理。这个代理处理来自客户端的订阅请求，将它们存储在内存中，并将消息广播到具有匹配目标的连接客户端。
 
-![](images/03/2.png)
+![](images/01/2.png)
 
 上图3个消息通道说明如下：
 
-    “clientInboundChannel” — 用于传输从webSocket客户端接收的消息 
-    “clientOutboundChannel” — 用于传输向webSocket客户端发送的消息
-    “brokerChannel” — 用于传输从服务器端应用程序代码向消息代理发送消息
+```
+“clientInboundChannel” — 用于传输从webSocket客户端接收的消息 
+“clientOutboundChannel” — 用于传输向webSocket客户端发送的消息
+“brokerChannel” — 用于传输从服务器端应用程序代码向消息代理发送消息
+```
+
 一般WebSocket与消息队列进行协作处理消息的处理与转发。
 
-![](images/03/3.png)
+![](images/01/3.png)
 
-## 3.3 Spring WebSocket前后端实践
+## 3 Spring WebSocket前后端实践
 
-### 3.3.1 建立Spring项目
+### 3.1 建立Spring项目
 
 pom.xml配置如下，其他方式类似，不再赘述
 
@@ -58,7 +57,7 @@ pom.xml配置如下，其他方式类似，不再赘述
     </dependencies>
 ```
 
-### 3.3.2 JAVA核心代码
+### 3.2 JAVA核心代码
 
 消息处理器MessageHandler.java
 
@@ -100,7 +99,6 @@ public class MessageHandler extends TextWebSocketHandler {
 本文简单验证用户名和密码，均为“test”
 
 ```
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.server.ServerHttpRequest;
@@ -155,7 +153,7 @@ public class WebsocketHandshakeInterceptor extends HttpSessionHandshakeIntercept
 }
 ```
 
-### 3.3.3 前端代码
+### 3.3 前端代码
 
 websocket.html
 
@@ -248,8 +246,8 @@ websocket.html
 
 3.3.4 运行结果
 
-### ![](images/03/6.png)
+### ![](images/01/6.png)
 
-### 3.4 思考
+## 4 思考
 
 目前WebSocket广泛应用于前后端心跳检测，协同通知等，后续会加强相关Demo实例研发。
