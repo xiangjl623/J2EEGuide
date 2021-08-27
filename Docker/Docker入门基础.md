@@ -83,7 +83,7 @@ cp [目录]\srcdemo demo\
 cd demo
 ```
 
-创建Dockfile
+创建Dockfile[指令详解：https://www.runoob.com/docker/docker-dockerfile.html]
 
 ```
 # Docker image for springboot file run
@@ -215,8 +215,10 @@ sudo docker ps -aq
 sudo docker stop $（sudo docker ps -aq）
 #删除所有的容器
 sudo docker rmi $（sudo docker ps -aq）
-删除所有的镜像
+#删除所有的镜像
 docker rmi $(docker images -q)
+#查看历史构建脚本
+sudo docker history <镜像ID> --format "{{.CreatedBy}}" --no-trunc |tac | awk '{if($3~/nop/){for(i=1;i<=3;i++){$i=""};print substr($0,4)}else{print "RUN",$0}}
 ```
 
 # 
